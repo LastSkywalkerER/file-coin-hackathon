@@ -9,7 +9,6 @@ export const useClasses = makeStyles()(() => ({
     bottom: 0,
     right: 0,
     position: 'fixed',
-    textAlign: 'center',
   },
 
   backgroundImage: {

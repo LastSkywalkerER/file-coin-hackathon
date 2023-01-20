@@ -1,1 +1,1 @@
-export const nothing = ''
+export * from './MainPage'

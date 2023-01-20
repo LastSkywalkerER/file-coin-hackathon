@@ -30,8 +30,6 @@ export const CommonStyles = () => (
         height: '16px',
       },
       'html, #root': {
-        height: '100%',
-        textAlign: 'center',
         fontFamily: '"Press start 2P", "VT323"',
         color: 'white',
       },

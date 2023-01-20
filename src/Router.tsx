@@ -4,13 +4,13 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { PageLoader } from './components'
 import { routes } from './constants/routes'
 
-const Component = lazy(() => import('./components/test/Component'))
+const MainPage = lazy(() => import('./components/pages/MainPage'))
 
 export const Router: FC = () => {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
-        <Route index element={<Component />} />
+        <Route index element={<MainPage />} />
 
         {routes.map(({ name, Component }) => (
           <Route key={name} path={name} element={<Component />} />

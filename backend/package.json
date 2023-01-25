@@ -1,5 +1,5 @@
 {
-  "name": "q-a-api",
+  "name": "file-coin",
   "version": "0.0.1",
   "description": "Test Nest Project",
   "author": "Maksim Drozd",
@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
@@ -32,6 +32,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
     "bcrypt": "^5.0.1",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",

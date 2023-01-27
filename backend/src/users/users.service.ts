@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
+import { DocumentsService } from '@/documents/documents.service';
 import { Roles } from '@/roles/types/roles.enum';
 
 import { Document } from '../documents/entities/documents.entity';
@@ -18,6 +19,7 @@ export class UsersService {
     private usersRepository: Repository<Users>,
     @InjectRepository(Document)
     private documentsRepository: Repository<Document>,
+    private documentsService: DocumentsService,
   ) {}
 
   async create(user: CreateUserDto): Promise<Users> {
@@ -36,16 +38,22 @@ export class UsersService {
 
   async getAll(): Promise<Users[]> {
     const users = await this.usersRepository.find();
-    const documents = await this.documentsRepository.find();
+    const documents = await this.documentsService.getAll();
 
     return users.map((user) => ({
       ...user,
-      documents: documents.filter((document) => document.owner === user.address).map((document) => document.cid),
+      documents: documents.filter((document) => document.owner === user.address).map((document) => document.content),
     }));
   }
 
-  getOne(address: string): Promise<Users> {
-    return this.usersRepository.findOneBy({ address });
+  async getOne(address: string): Promise<Users> {
+    const user = await this.usersRepository.findOneBy({ address });
+    const documents = await this.documentsService.getAll();
+
+    return {
+      ...user,
+      documents: documents.filter((document) => document.owner === user.address).map((document) => document.content),
+    };
   }
 
   async remove(address: string): Promise<DeleteResult> {

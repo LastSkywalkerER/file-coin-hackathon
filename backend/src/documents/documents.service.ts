@@ -1,8 +1,12 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { request } from 'undici';
+
+import { IpfsService } from '@/ipfs/ipfs.service';
 
 import { CreateDocumentDto } from './dto/create-documents.dto';
+import { GetDocumentDto } from './dto/get-documents.dto';
 import { UpdateDocumentDto } from './dto/update-documents.dto';
 import { Document } from './entities/documents.entity';
 
@@ -11,24 +15,34 @@ export class DocumentsService {
   constructor(
     @InjectRepository(Document)
     private documentsRepository: Repository<Document>,
+    private ipfsService: IpfsService,
   ) {}
 
-  async create(document: CreateDocumentDto): Promise<Document> {
-    const [checkDocument] = await this.documentsRepository.findBy({ cid: document.cid });
+  async create({ content, owner }: CreateDocumentDto): Promise<Document> {
+    const { links } = await this.ipfsService.safeDocument(content);
 
-    if (checkDocument) {
-      throw new HttpException('Document already exists', HttpStatus.NOT_ACCEPTABLE);
-    }
-
-    return this.documentsRepository.save(document);
+    return this.documentsRepository.save({ link: links[0], owner });
   }
 
-  async getAll(): Promise<Document[]> {
-    return this.documentsRepository.find();
+  async getAll(): Promise<GetDocumentDto[]> {
+    const bdDocuments = await this.documentsRepository.find();
+
+    const documents = Promise.all(
+      bdDocuments.map(async (document) => {
+        const { body } = await request(document.link);
+        const data = await body.json();
+
+        return { ...document, content: data };
+      }),
+    );
+
+    return documents;
   }
 
-  async update(document: UpdateDocumentDto): Promise<UpdateResult> {
-    return this.documentsRepository.update({ id: document.id }, document);
+  async update({ content, id, owner }: UpdateDocumentDto): Promise<UpdateResult> {
+    const { links } = await this.ipfsService.safeDocument(content);
+
+    return this.documentsRepository.update({ id }, { id, link: links[0], owner });
   }
 
   async remove(id: string): Promise<DeleteResult> {

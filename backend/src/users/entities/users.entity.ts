@@ -13,10 +13,10 @@ export class Users {
   @Column()
   role: string;
 
-  @OneToMany(() => Document, (document) => document.cid)
+  @OneToMany(() => Document, (document) => document.link)
   @JoinColumn({
     name: 'documents',
-    referencedColumnName: 'cid',
+    referencedColumnName: 'link',
   })
   @Column('text', { array: true, default: [], nullable: false })
   documents: string[];

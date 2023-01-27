@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
 
 import { AuthService } from '@/auth/auth.service';
+import { Auth } from '@/auth/decorators/auth.decorator';
 import { Public } from '@/auth/decorators/public.decorator';
 import { LocalAuthGuard } from '@/auth/guards/local-auth.guard';
 import { Roles } from '@/roles/decorators/roles.decorator';
@@ -21,13 +22,13 @@ export class UsersController {
   }
 
   @Get('upgrade/:address')
-  // @Roles(RolesEnum.Admin)
+  @Roles(RolesEnum.Admin)
   async upgrade(@Param('address') address: string) {
     return this.usersService.upgrade(address);
   }
 
   @Public()
-  // @UseGuards(LocalAuthGuard)
+  @Auth()
   @Post('login')
   async login(@Request() req: { user: GetUserDto }) {
     return this.authService.login(req.user);

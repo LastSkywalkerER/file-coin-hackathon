@@ -13,6 +13,7 @@ const prodConfig = {
   databasePassword: process.env.DATABASE_PASSWORD,
   databasePort: Number(process.env.DATABASE_PORT),
   databaseHost: process.env.DATABASE_HOST,
+  web3StorageApiKey: process.env.WEB3STORAGE_API_KEY,
 };
 
 const devConfig = {

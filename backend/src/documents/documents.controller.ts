@@ -23,7 +23,7 @@ export class DocumentsController {
   }
 
   @Patch('update')
-  // @Roles(RolesEnum.Admin)
+  @Roles(RolesEnum.Owner)
   async update(@Body() updateDocumentDto: UpdateDocumentDto) {
     return this.documentsService.update(updateDocumentDto);
   }

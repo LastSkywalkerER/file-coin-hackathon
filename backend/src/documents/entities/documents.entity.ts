@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Users } from '@/users/entities/users.entity';
 
@@ -8,13 +8,13 @@ export class Document {
   id: string;
 
   @Column()
-  cid: string;
+  link: string;
 
-  @OneToOne(() => Users, (document) => document.address)
+  @ManyToOne(() => Users, (document) => document.address)
   @JoinColumn({
     name: 'owner',
     referencedColumnName: 'address',
   })
-  @Column('text', { nullable: true })
+  @Column('text', { nullable: true, unique: false })
   owner: string;
 }

@@ -1,6 +1,6 @@
 import { makeStyles } from 'tss-react/mui'
 
-export const useClasses = makeStyles()(({ spacing, palette }) => ({
+export const useClasses = makeStyles()(({ spacing }) => ({
   loader: {
     width: spacing(8),
     height: spacing(8),

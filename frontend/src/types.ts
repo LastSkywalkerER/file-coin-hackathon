@@ -8,3 +8,7 @@ export type Option = {
   name: string
   value: string
 }
+
+export enum StorageNames {
+  Token = 'token',
+}

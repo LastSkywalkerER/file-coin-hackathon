@@ -1,9 +1,12 @@
+import CreateDocument from '@/components/pages/CreateDocument'
+import Documents from '@/components/pages/Documents'
+
 export enum RoutesNames {
-  Mint = 'Mint',
-  Collections = 'Collections',
+  CreateDocument = 'CreateDocument',
+  Documents = 'Documents',
 }
 
 export const routes = [
-  { name: RoutesNames.Collections, Component: () => <div>{RoutesNames.Collections}</div> },
-  { name: RoutesNames.Mint, Component: () => <div>{RoutesNames.Mint}</div> },
+  { name: RoutesNames.CreateDocument, Component: CreateDocument },
+  { name: RoutesNames.Documents, Component: Documents },
 ]

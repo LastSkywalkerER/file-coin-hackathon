@@ -6,7 +6,7 @@ export const PageWrapper = withStyles('div', () => ({
     padding: '0 2.5% 25px 2.5%',
 
     position: 'absolute',
-    top: 165,
+    top: 100,
     left: 0,
     bottom: 0,
     right: 0,

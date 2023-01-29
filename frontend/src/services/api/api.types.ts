@@ -1,14 +1,13 @@
 import { interfaces } from 'inversify'
 
 export interface IApiService {
-  register(address: string): Promise<unknown> | undefined
-  login(address: string): Promise<unknown> | undefined
+  // register(address: string): Promise<unknown> | undefined
+  login(): Promise<void>
   getAllUsers(): Promise<unknown> | undefined
   getUser(address: string): Promise<unknown> | undefined
-  documentsCreate(content: string): Promise<unknown>
-  documentsUpdate({ owner, ...args }: UpdateDocument): Promise<unknown>
-  documentsUpdate({ owner, ...args }: UpdateDocument): Promise<unknown>
-  documents(): Promise<unknown> | undefined
+  documentsCreate(content: string): Promise<IpfsDocument>
+  documentsUpdate({ owner, ...args }: UpdateDocument): Promise<IpfsDocument>
+  documents(): Promise<UpdateDocument[]>
   documentsRemove(id: number): Promise<unknown> | undefined
 }
 
@@ -31,4 +30,11 @@ export interface UpdateDocument {
   id: number
   content: string
   owner?: string
+  link: string
+}
+
+export interface IpfsDocument {
+  link: string
+  id: number
+  owner: string
 }

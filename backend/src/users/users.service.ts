@@ -48,6 +48,7 @@ export class UsersService {
 
   async getOne(address: string): Promise<Users> {
     const user = await this.usersRepository.findOneBy({ address });
+
     const documents = await this.documentsService.getAll();
 
     return {

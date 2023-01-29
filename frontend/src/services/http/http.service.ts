@@ -10,7 +10,7 @@ import { HttpMethods, IHttpService } from './http.types'
 
 @injectable()
 export class HttpService implements IHttpService {
-  private readonly client = fetch
+  private readonly client = window.fetch.bind(window)
   @inject(ILocalStorageService.$) private localStorageService: ILocalStorageService | undefined
 
   isLogged$ = new BehaviorSubject(false)
@@ -28,7 +28,10 @@ export class HttpService implements IHttpService {
     headers: Record<string, string> = {},
   ) => {
     try {
-      headers['auth'] = this.localStorageService?.get(StorageNames.Token) as string
+      const token = this.localStorageService?.get(StorageNames.Token) as string
+      if (token) {
+        headers['Authorization'] = 'Bearer ' + token
+      }
 
       if (body) {
         body = JSON.stringify(body)

@@ -39,10 +39,12 @@ export class DocumentsService {
     return documents;
   }
 
-  async update({ content, id, owner }: UpdateDocumentDto): Promise<UpdateResult> {
+  async update({ content, id, owner }: UpdateDocumentDto): Promise<GetDocumentDto> {
     const { links } = await this.ipfsService.safeDocument(content);
 
-    return this.documentsRepository.update({ id }, { id, link: links[0], owner });
+    await this.documentsRepository.update({ id }, { id, link: links[0], owner });
+
+    return { content, id, owner, link: links[0] };
   }
 
   async remove(id: string): Promise<DeleteResult> {

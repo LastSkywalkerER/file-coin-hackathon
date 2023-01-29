@@ -5,6 +5,8 @@ import { createContext, memo, NamedExoticComponent, useContext, useEffect, useSt
 import { toast } from 'react-toastify'
 import { ChainInfo, IProviderRpcError } from 'wallets-wrapper'
 
+import { IApiService } from '@/services/api'
+
 import { IMetamask, Metamask } from '../services'
 import { WrapperProps } from '../types'
 import { useSubscription } from './useSubscription.hook'
@@ -34,6 +36,7 @@ export const AccountsProvider: NamedExoticComponent<WrapperProps> = memo((props:
   const { children } = props
   const { init, address$, getAddress, network$, connectWallet, openOnMobile, switchNetwork } =
     useInjection<IMetamask>(IMetamask.$)
+  const { login } = useInjection<IApiService>(IApiService.$)
 
   const theme = useTheme()
   const match = useMediaQuery(theme.breakpoints.down('md'))
@@ -51,6 +54,7 @@ export const AccountsProvider: NamedExoticComponent<WrapperProps> = memo((props:
 
         if (address) {
           setAddress(address)
+          login()
         } else if (isInstalled) {
           if (match) {
             openOnMobile()

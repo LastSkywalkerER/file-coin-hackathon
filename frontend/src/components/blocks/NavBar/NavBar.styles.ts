@@ -7,7 +7,7 @@ export const useClasses = makeStyles()(({ palette }) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '30px',
-    maxHeight: '165px',
+    maxHeight: '100px',
   },
   navBlock: {
     display: 'flex',
@@ -17,7 +17,7 @@ export const useClasses = makeStyles()(({ palette }) => ({
     padding: '0 75px',
   },
   navBlockRight: {
-    padding: '30px',
+    // padding: '30px',
   },
   navItem: {
     margin: '0 15px',

@@ -45,7 +45,7 @@ export class IpfsService {
   }
 
   async safeDocument(document: string) {
-    const buffer = Buffer.from(document);
+    const buffer = Buffer.from(JSON.stringify(document));
 
     const file = new File([buffer], `document.json`);
 
